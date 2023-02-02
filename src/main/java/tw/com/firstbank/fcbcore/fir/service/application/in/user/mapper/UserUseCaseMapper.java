@@ -7,6 +7,7 @@ import org.mapstruct.MappingConstants.ComponentModel;
 import org.mapstruct.Mappings;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.CreateUserRequestCommand;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.CreateUserResponseCommand;
+import tw.com.firstbank.fcbcore.fir.service.domain.user.User;
 
 @Mapper(componentModel = ComponentModel.SPRING)
 public interface UserUseCaseMapper {
@@ -30,5 +31,17 @@ public interface UserUseCaseMapper {
 
 	CreateUserResponseCommand toCreateUserResponseCommand(String statusCode,String no,String branchCode);
 
+
+	@Mappings({
+		@Mapping(source = "dto.no",target ="id.no" ),
+		@Mapping(source = "dto.branchCode",target ="id.branchCode" ),
+	})
+	User toUserEntity(UserDto dto);
+
+	@Mappings({
+		@Mapping(source = "id.no",target ="no" ),
+		@Mapping(source = "id.branchCode",target ="branchCode" ),
+	})
+	UserDto toUserDto(User entity);
 
 }

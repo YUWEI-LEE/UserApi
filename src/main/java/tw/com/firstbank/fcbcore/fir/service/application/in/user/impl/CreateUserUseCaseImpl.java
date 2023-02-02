@@ -20,7 +20,6 @@ public class CreateUserUseCaseImpl implements CreateUserUseCaseApi {
 	private UserUseCaseMapper mapper;
 	private UserService userService;
 
-	@Transactional
 	@Override
 	public CreateUserResponseCommand execute(CreateUserRequestCommand requestCommand) {
 		CreateUserResponseCommand resp = new CreateUserResponseCommand();
