@@ -9,7 +9,7 @@ import tw.com.firstbank.fcbcore.fir.service.domain.user.UserId;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-02T11:36:35+0800",
+    date = "2023-02-02T14:05:42+0800",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.4.1 (Homebrew)"
 )
 @Component

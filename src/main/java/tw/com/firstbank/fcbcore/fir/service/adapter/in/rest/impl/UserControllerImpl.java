@@ -19,7 +19,9 @@ import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.api.UpdateUserRespon
 import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.api.UserControllerApi;
 import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.mapper.UserControllerMapper;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.CreateUserUseCaseApi;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.GetUserUseCaseApi;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.impl.CreateUserUseCaseImpl;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.impl.GetUserUseCaseImpl;
 
 @AllArgsConstructor
 @RestController
@@ -30,6 +32,7 @@ public class UserControllerImpl implements UserControllerApi {
 
 	private UserControllerMapper mapper;
 
+	private GetUserUseCaseApi getUserUseCaseApi;
 	@Override
 	public GetUserResponse getUsers() {
 		return null;
@@ -38,9 +41,8 @@ public class UserControllerImpl implements UserControllerApi {
 	@GetMapping("/{branchCode}/{no}")
 	@Override
 	public GetUserResponse getUser(@PathVariable String branchCode,@PathVariable String no) {
-		GetUserResponse getUserResponse = new GetUserResponse();
-		getUserResponse.setStatusCode("0000");
-		return getUserResponse;
+		return mapper.toGetUserResponse(
+			getUserUseCaseApi.execute(mapper.toGetUserRequestCommand(branchCode,no)));
 	}
 
 
