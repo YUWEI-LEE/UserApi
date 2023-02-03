@@ -14,8 +14,13 @@ public interface UserControllerApi {
 	 * 取得所有使用者資訊
 	 * @return
 	 */
-	GetUserResponse getUsers();
+	GetUsersResponse getUsers();
 
+	/**
+	 * 取得該分行所有使用者資訊
+	 * @return
+	 */
+	GetUsersResponse getUsersByBranchCode(String branchCode);
 
 	/**
 	 * 使用使用者編號取得使用者資訊
@@ -43,6 +48,6 @@ public interface UserControllerApi {
 	 * @param no 使用者編號
 	 * @return
 	 */
-	DeleteUserResponse deleteUser(final String no);
+	DeleteUserResponse deleteUser(final String branchCode ,final String no);
 
 }

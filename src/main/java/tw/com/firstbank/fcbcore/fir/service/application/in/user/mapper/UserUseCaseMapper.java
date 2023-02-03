@@ -1,13 +1,19 @@
 package tw.com.firstbank.fcbcore.fir.service.application.in.user.mapper;
 
-import java.util.Date;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants.ComponentModel;
 import org.mapstruct.Mappings;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.CreateUserRequestCommand;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.CreateUserResponseCommand;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.DeleteUserRequestCommand;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.GetUserRequestCommand;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.GetUserResponseCommand;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.GetUsersRequestCommand;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.UpdateUserRequestCommand;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.UpdateUserResponseCommand;
 import tw.com.firstbank.fcbcore.fir.service.domain.user.User;
+import tw.com.firstbank.fcbcore.fir.service.domain.user.UserId;
 
 @Mapper(componentModel = ComponentModel.SPRING)
 public interface UserUseCaseMapper {
@@ -44,4 +50,20 @@ public interface UserUseCaseMapper {
 	})
 	UserDto toUserDto(User entity);
 
+	UserDto toUserDto (GetUserRequestCommand source);
+
+
+	GetUserResponseCommand toGetUserResponseCommand(String statusCode,UserDto dto);
+
+
+	UserId toUserId(UserDto dto);
+
+
+	UserDto toUserDto(DeleteUserRequestCommand source);
+
+	UserDto toUserDto(UpdateUserRequestCommand source);
+
+	UpdateUserResponseCommand toUpdateUserRequestCommand(String statusCode, UserDto dto);
+
+	UserDto toUserDto(GetUsersRequestCommand source);
 }

@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class UpdateUserRequest {
 
-  private String no;
   private String branchCode;
   private String businessCategory;
   private String verificationCode;

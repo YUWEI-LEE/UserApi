@@ -1,13 +1,11 @@
 package tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.mapper.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.api.CreateUserRequest;
 import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.api.CreateUserResponse;
@@ -19,23 +17,42 @@ import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.api.UpdateUserRespon
 import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.api.UserControllerApi;
 import tw.com.firstbank.fcbcore.fir.service.adapter.in.rest.mapper.UserControllerMapper;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.CreateUserUseCaseApi;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.DeleteUserUseCaseApi;
 import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.GetUserUseCaseApi;
-import tw.com.firstbank.fcbcore.fir.service.application.in.user.impl.CreateUserUseCaseImpl;
-import tw.com.firstbank.fcbcore.fir.service.application.in.user.impl.GetUserUseCaseImpl;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.GetUsersByBranchCodeUseCaseApi;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.GetUsersUseCaseApi;
+import tw.com.firstbank.fcbcore.fir.service.application.in.user.api.UpdateUserUseCaseApi;
+
 
 @AllArgsConstructor
 @RestController
 public class UserControllerImpl implements UserControllerApi {
 
-
+	private UserControllerMapper mapper;
 	private CreateUserUseCaseApi createUserUseCaseApi;
 
-	private UserControllerMapper mapper;
-
 	private GetUserUseCaseApi getUserUseCaseApi;
+
+	private DeleteUserUseCaseApi deleteUserUseCaseApi;
+
+	private UpdateUserUseCaseApi updateUserUseCaseApi;
+
+	private GetUsersUseCaseApi getUsersUseCaseApi;
+
+	private GetUsersByBranchCodeUseCaseApi getUsersByBranchCodeUseCaseApi;
+	@GetMapping("")
 	@Override
-	public GetUserResponse getUsers() {
-		return null;
+	public GetUsersResponse getUsers() {
+		return mapper.toGetUsersResponse(
+			getUsersUseCaseApi.execute(null));
+	}
+
+	@GetMapping("/{branchCode}")
+	@Override
+	public GetUsersResponse getUsersByBranchCode(@PathVariable String branchCode) {
+
+		return mapper.toGetUsersResponse(
+			getUsersByBranchCodeUseCaseApi.execute(mapper.toGetUsersRequestCommand(branchCode)));
 	}
 
 	@GetMapping("/{branchCode}/{no}")
@@ -54,13 +71,18 @@ public class UserControllerImpl implements UserControllerApi {
 			(createUserUseCaseApi.execute(mapper.toCreateUserRequestCommand(request)));
 	}
 
+	@PutMapping("/{branchCode}/{no}")
 	@Override
-	public UpdateUserResponse updateUser(String no, UpdateUserRequest request) {
-		return null;
+	public UpdateUserResponse updateUser(@PathVariable String no,  UpdateUserRequest request) {
+
+		return mapper.toUpdateUserResponse(updateUserUseCaseApi.execute(mapper.toUpdateUserRequestCommand(no,request)));
 	}
 
+	@DeleteMapping("/{branchCode}/{no}")
 	@Override
-	public DeleteUserResponse deleteUser(String no) {
-		return null;
+	public DeleteUserResponse deleteUser(@PathVariable String branchCode ,@PathVariable String no) {
+
+		return mapper.toDeleteUserResponse
+			(deleteUserUseCaseApi.execute(mapper.toDeleteUserRequestCommand(branchCode, no)));
 	}
 }

@@ -1,0 +1,9 @@
+package tw.com.firstbank.fcbcore.fir.service.application.in.user.api;
+
+import lombok.Data;
+import tw.com.firstbank.fcbcore.fir.service.application.in.core.RequestCommand;
+@Data
+public class GetUsersRequestCommand implements RequestCommand {
+
+	private String branchCode;
+}
